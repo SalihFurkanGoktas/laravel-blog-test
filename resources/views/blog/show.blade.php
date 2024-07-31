@@ -2,8 +2,9 @@
 @if (Auth::check())
 <x-app-layout>
 @foreach ($blogs as $blog)
+	<div class="p-6 bg-grey font-bold">
 	<a href='/show-blogs/{{ $blog->heading }}'>{{ $blog->title  }}</a>
-	<br>
+	</div>
 @endforeach
 </x-app-layout>
 @else
