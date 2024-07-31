@@ -3,10 +3,10 @@
 
 use App\Models\Blog;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\TestController;
+//use App\Http\Controllers\ChirpController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,11 +22,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::redirect('/here', '/');
-
-Route::resource('test', TestController::class)
-	->only(['index','store'])
-	->middleware(['auth','verified']);
 
 Route::resource('blog', BlogController::class)
 	->only(['index','store'])
@@ -39,10 +34,19 @@ Route::get('/show-blogs', function () {
 
 Route::get('/show-blogs/{blog:heading}', [BlogController::class, 'showSpecific']);
 
-
+/*
 Route::resource('chirps', ChirpController::class)
 	->only(['index','store', 'edit', 'update'])
 	->middleware(['auth','verified']);
+
+Route::redirect('/here', '/');
+
+Route::resource('test', TestController::class)
+	->only(['index','store'])
+	->middleware(['auth','verified']);
+
+ */
+
 
 require __DIR__.'/auth.php';
 
