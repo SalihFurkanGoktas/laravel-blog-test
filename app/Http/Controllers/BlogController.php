@@ -35,7 +35,7 @@ class BlogController extends Controller
 	{
 		$validated = $request->validate([
 			'title' => 'required|string|max:255',
-			'content' => 'required|string|max:20000',
+			'content' => 'required|string',
 		]);
 
 		$validated['heading'] = preg_replace('/[\p{P}]/u', '', $validated['title']);
@@ -81,7 +81,13 @@ class BlogController extends Controller
 	*/
 	public function update(Request $request, Blog $blog)
 	{
-		//
+		//	
+	}
+
+	public function modify(Request $request)
+	{
+		dd($request);
+		die();	
 	}
 
 	/**

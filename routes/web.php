@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('blog', BlogController::class)
-	->only(['index','store'])
+	->only(['index','store','update'])
 	->middleware(['auth','verified']);
 
 Route::get('/show-blogs', function () {
@@ -36,12 +36,5 @@ Route::resource('chirps', ChirpController::class)
 	->only(['index','store', 'edit', 'update'])
 	->middleware(['auth','verified']);
 
-/*
-Route::redirect('/here', '/');
-
-Route::resource('test', TestController::class)
-	->only(['index','store'])
-	->middleware(['auth','verified']);
-	*/
 
 require __DIR__.'/auth.php';
