@@ -22,7 +22,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('blog', BlogController::class)
-	->only(['index','store','update'])
 	->middleware(['auth','verified']);
 
 Route::get('/show-blogs', function () {
@@ -31,6 +30,8 @@ Route::get('/show-blogs', function () {
 	]); })->name('blog.show');
 
 Route::get('/show-blogs/{blog:heading}', [BlogController::class, 'showSpecific']);
+
+Route::post('/blog-comment', [BlogController::class, 'storeComment'])->name('blog-comment');
 
 Route::resource('chirps', ChirpController::class)
 	->only(['index','store', 'edit', 'update'])

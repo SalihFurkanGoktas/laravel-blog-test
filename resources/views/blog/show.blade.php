@@ -1,6 +1,6 @@
 <x-app-layout>
 	@foreach ($blogs as $blog)
-		<div class="p-6 bg-grey font-bold">
+		<div style="padding: 10px; margin-left: 20px;" class="bg-grey font-bold">
 			<a href='/show-blogs/{{ $blog->heading }}'>{{ $blog->title  }}</a>
 		</div>
 	@endforeach
