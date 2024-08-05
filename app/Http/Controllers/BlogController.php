@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class BlogController extends Controller
 {
@@ -51,25 +52,24 @@ class BlogController extends Controller
 		} 
 		catch (UniqueConstraintViolationException $e) 
 		{
+			
 			$epic_error = "Duplicate title detected! Please choose a different title."; 
 		}
 		return redirect(route('blog.index'))->with('errorMsg',$epic_error);
 	}
 
-	public function storeComment(Request $request, Blog $blog): View 
+	public function storeComment(Request $request): RedirectResponse
 	{
 
+
 		$validated = $request->validate([
-		'message' => 'required|string|max:255',
+			'message' => 'required|string|max:155',
 		]);
 		
 
 		$blog = Blog::find($request->input('testStuff'));	
 
 		$validated['blog_id'] = $blog->id;
-		
-
-		//$request->user()->comments()->create($validated);
 		
 		$dbData = [
 			"id" => null,
@@ -80,9 +80,17 @@ class BlogController extends Controller
 			"updated_at" => Carbon::now(),
 		];
 
-		DB::table('comments')->insert($dbData);
-
-		return view('blog.list', ['blog' => $blog, 'comments' => Comment::whereBelongsTo($blog)->get(),]);
+		$commentPosted = (DB::table('comments')->insert($dbData));
+		
+		/*
+		return view('blog.list', [
+			'blog' => $blog, 
+			'comments' => Comment::whereBelongsTo($blog)->get(),
+			'commentPosted' => $commentPosted,
+		]);
+		*/
+		
+		return redirect()->action([BlogController::class, 'showSpecific'], ['blog' => $blog])->with('commentPosted', $commentPosted);
 	}
 
 	/**
@@ -103,17 +111,27 @@ class BlogController extends Controller
 	/**
 	* Show the form for editing the specified resource.
 	*/
-	public function edit(Blog $blog)
+	public function edit(Blog $blog): View
 	{
-		//
+		//Gate::authorize('update', $blog);
+
+		return view('blog.edit', ['blog' => $blog, ]);		
 	}
 
 	/**
 	* Update the specified resource in storage.
 	*/
-	public function update(Request $request, Blog $blog)
+	public function update(Request $request, Blog $blog): RedirectResponse
 	{
-		//	
+		//Gate::authorize('update', $blog);
+
+		$validated = $request->validate([
+			'content' => 'required',
+		]);
+
+		$editPosted = $blog->update($validated);
+
+		return redirect()->action([BlogController::class, 'showSpecific'], ['blog' => $blog])->with('editPosted', $editPosted);
 	}
 
 	public function modify(Request $request)
@@ -125,8 +143,10 @@ class BlogController extends Controller
 	/**
 	* Remove the specified resource from storage.
 	*/
-	public function destroy(Blog $blog)
+	public function destroy(Blog $blog): RedirectResponse
 	{
-		//
+		$blog->delete();
+
+		return redirect(route('blog.show'));
 	}
 }
