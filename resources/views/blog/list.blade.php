@@ -1,12 +1,12 @@
 <x-app-layout>
-	<div style="margin-top:10px">
-		<a style="padding: 3px; margin:10px 3px 10px 3px; border:3px; border-style:solid" href={{ url('/show-blogs') }}>Go Back</a>
+	<div style= " display:flex">
+		<a style="padding: 3px; border:3px; border-style:solid; margin-right: 10px" href={{ url('/show-blogs') }}>Go Back</a>
 		@if ($blog->user->is(auth()->user()))
-			<a style="padding: 3px; margin:10px 3px 10px 3px; border:3px; border-style:solid" href={{ route('blog.edit', $blog) }}>Edit Blog</a>
-			<form style="margin-top:10px" method="POST" action="{{route('blog.destroy', $blog) }}">
+			<a style="padding: 3px; border:3px; border-style:solid; margin-right: 10px" href={{ route('blog.edit', $blog) }}>Edit Blog</a>
+			<form method="POST" style="margin-top:5px" action="{{route('blog.destroy', $blog) }}">
 				@csrf
 				@method('delete')
-				<a style="padding: 3px; margin:30px 3px 10px 3px; border:3px solid red; color: #cc0000;" href={{ route('blog.destroy', $blog) }} onclick="event.preventDefault(); this.closest('form').submit();">Delete Blog</a>
+				<a style="padding: 3px; border:3px solid red; color: #cc0000;" href={{ route('blog.destroy', $blog) }} onclick="event.preventDefault(); this.closest('form').submit();">Delete Blog</a>
 			</form>
 		@endif
 	</div>

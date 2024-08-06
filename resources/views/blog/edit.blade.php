@@ -2,7 +2,7 @@
 	<form method="POST" action="{{ route('blog.update', $blog) }}">
 		@csrf
 		@method('patch')
-		<textarea style="padding: 6px; margin: 20px; width:500px; height:300px;"name="content">{{ old('content', $blog->content) }}</textarea>
+		<textarea style="padding: 6px; margin: 20px; width:900px; height:300px;"name="content">{{ old('content', $blog->content) }}</textarea>
 		<x-input-error :messages="$errors->get('content')" />
 		<br>
 		<x-primary-button style="margin-left:20px;">{{ __('Save Blog') }}</x-primary-button>

@@ -13,6 +13,7 @@ use Illuminate\View\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -113,7 +114,7 @@ class BlogController extends Controller
 	*/
 	public function edit(Blog $blog): View
 	{
-		//Gate::authorize('update', $blog);
+		Gate::authorize('update', $blog);
 
 		return view('blog.edit', ['blog' => $blog, ]);		
 	}
@@ -123,10 +124,12 @@ class BlogController extends Controller
 	*/
 	public function update(Request $request, Blog $blog): RedirectResponse
 	{
-		//Gate::authorize('update', $blog);
+		Gate::authorize('update', $blog);
+			
+		$curId = $blog->id;
 
 		$validated = $request->validate([
-			'content' => 'required',
+			'content' => 'required|unique:blogs,content,NULL,id,id,'.$curId.'',
 		]);
 
 		$editPosted = $blog->update($validated);
