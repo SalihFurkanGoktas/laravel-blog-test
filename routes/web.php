@@ -30,10 +30,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('blog', BlogController::class)
 	->middleware(['auth','verified']);
 
-Route::get('/show-blogs', function () {
-	return view('blog.show', [
-		'blogs' => DB::table('blogs')->latest()->paginate(5) 
-	]); })->name('blog.show');
+Route::get('/show-blogs', [BlogController::class, 'displayAllBlogs'])->name('blog.show');
 
 Route::get('/show-blogs/{blog:heading}', [BlogController::class, 'showSpecific']);
 

@@ -32,6 +32,11 @@ class BlogController extends Controller
 	{
 		//
 	}
+	
+	public function displayAllBlogs(Request $request): View 
+	{
+		return view('blog.show', ['blogs' => DB::table('blogs')->latest()->paginate(5)]);
+	}
 
 	/**
 	* Store a newly created resource in storage.

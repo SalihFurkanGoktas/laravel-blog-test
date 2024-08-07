@@ -4,6 +4,9 @@
 			<a style="font-size:1.5em;" class="hover:text-gray-500" href='/show-blogs/{{ $blog->heading }}'>{{ $blog->title  }}</a>
 		</div>
 	@endforeach
+	
+	<div style="top: 50px ">
+		{{ $blogs->onEachSide(1)->links() }}
+	</div>
 
-	{{ $blogs->links() }}
 </x-app-layout>

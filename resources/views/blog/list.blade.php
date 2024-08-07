@@ -1,6 +1,10 @@
 <x-app-layout>
 	<div style= " display:flex">
-		<a style="padding: 3px; border:3px; border-style:solid; margin-right: 10px" href={{ url('/show-blogs') }}>Go Back</a>
+		@if (url()->current() === url()->previous())
+			<a style="padding: 3px; border:3px; border-style:solid; margin-right: 10px" href={{ url('/show-blogs') }}>Go Back</a>
+		@else 
+			<a style="padding: 3px; border:3px; border-style:solid; margin-right: 10px" href={{ url()->previous() }}>Go Back</a>
+		@endif
 		@if ($blog->user->is(auth()->user()))
 			<a style="padding: 3px; border:3px; border-style:solid; margin-right: 10px" href={{ route('blog.edit', $blog) }}>Edit Blog</a>
 			<form method="POST" style="margin-top:5px" action="{{route('blog.destroy', $blog) }}">
